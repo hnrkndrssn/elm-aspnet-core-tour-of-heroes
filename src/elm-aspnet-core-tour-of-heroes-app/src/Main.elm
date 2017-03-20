@@ -2,39 +2,15 @@ module Main exposing (..)
 
 import Html exposing (Html, div, text, program)
 
--- MODEL
-
-type alias Model =
-  String
+import App.Messages exposing (Msg(..))
+import App.Models exposing (Model, initialModel)
+import App.Update exposing (update)
+import App.View exposing (view)
 
 init : ( Model, Cmd Msg )
 init =
-    ( "Hello, World from Elm!", Cmd.none )
+    ( initialModel, Cmd.none )
 
-
--- MESSAGES
-
-type Msg 
-  = NoOp
-
-
--- VIEW
-
-view : Model -> Html Msg
-view model =
-  div []
-    [ text model ]
-
-
--- UPDATE
-
-update : Msg -> Model -> ( Model, Cmd Msg )
-update msg model =
-  case msg of
-    NoOp -> 
-      ( model, Cmd.none )
-
-      
 -- SUBSCRIPTIONS
 
 subscriptions : Model -> Sub Msg
