@@ -1,6 +1,6 @@
 module App.Messages exposing (..)
 
-import App.Models exposing (Hero)
+import Heroes.Models exposing (Hero)
 
 type Msg
   = SelectHero Hero
