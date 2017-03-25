@@ -1,5 +1,8 @@
 module App.Messages exposing (..)
 
+import App.Models exposing (Hero)
+
 type Msg
-  = ChangeName String
+  = SelectHero Hero
+  | ChangeName String
   | NoOp
