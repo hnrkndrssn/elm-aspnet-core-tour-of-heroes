@@ -1,0 +1,51 @@
+[{
+        "id": 11,
+        "name": "Mr. Nice",
+        "isSelected": false
+    },
+    {
+        "id": 12,
+        "name": "Narco",
+        "isSelected": false
+    },
+    {
+        "id": 13,
+        "name": "Bombasto",
+        "isSelected": false
+    },
+    {
+        "id": 14,
+        "name": "Celeritas",
+        "isSelected": false
+    },
+    {
+        "id": 15,
+        "name": "Magneta",
+        "isSelected": false
+    },
+    {
+        "id": 16,
+        "name": "RubberMan",
+        "isSelected": false
+    },
+    {
+        "id": 17,
+        "name": "Dynama",
+        "isSelected": false
+    },
+    {
+        "id": 18,
+        "name": "Dr IQ",
+        "isSelected": false
+    },
+    {
+        "id": 19,
+        "name": "Magma",
+        "isSelected": false
+    },
+    {
+        "id": 20,
+        "name": "Tornado",
+        "isSelected": false
+    }
+]

@@ -6,10 +6,11 @@ import App.Messages exposing (Msg(..))
 import App.Models exposing (Model, initialModel)
 import App.Update exposing (update)
 import App.View exposing (view)
+import Heroes.Commands exposing (fetchHeroes)
 
 init : ( Model, Cmd Msg )
 init =
-    ( initialModel, Cmd.none )
+    ( initialModel, fetchHeroes )
 
 -- SUBSCRIPTIONS
 

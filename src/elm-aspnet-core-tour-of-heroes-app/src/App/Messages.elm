@@ -1,8 +1,10 @@
 module App.Messages exposing (..)
 
+import RemoteData exposing (WebData)
+
 import Heroes.Models exposing (Hero)
 
 type Msg
-  = SelectHero Hero
+  = HeroesLoaded (WebData (List Hero))
+  | SelectHero Hero
   | ChangeName String
-  | NoOp

@@ -1,11 +1,17 @@
 module App.Update exposing (..)
 
+import RemoteData exposing (WebData)
+
 import App.Models exposing (Model)
 import App.Messages exposing (Msg(..))
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
+
+        HeroesLoaded heroes ->
+          ( { model | heroes = (RemoteData.toMaybe heroes) }, Cmd.none )
+
         ChangeName newName ->
           case model.selectedHero of
             Just selectedHero ->
@@ -20,12 +26,19 @@ update msg model =
                     currentHero
 
                 updatedHeroList heroes =
-                  List.map pick heroes
+                  case heroes of
+
+                    Just heroes ->
+                      List.map pick heroes
+                    
+                    Nothing ->
+                      []
 
                 updatedModel = 
-                  { model | heroes = (updatedHeroList model.heroes), selectedHero = Just updatedHero }
+                  { model | heroes = Just (updatedHeroList model.heroes), selectedHero = Just updatedHero }
               in
                 ( updatedModel, Cmd.none )
+
             Nothing ->
               ( model, Cmd.none )
         
@@ -38,10 +51,12 @@ update msg model =
                 { currentHero | isSelected = False }
 
             updatedHeroList heroes =
-              List.map pick heroes
+              case heroes of
+
+                Just heroes ->
+                  List.map pick heroes
+                
+                Nothing ->
+                  []
           in
-            ( { model | heroes = (updatedHeroList model.heroes), selectedHero = Just hero }, Cmd.none )
-
-        NoOp ->
-            ( model, Cmd.none )
-
+            ( { model | heroes = Just (updatedHeroList model.heroes), selectedHero = Just hero }, Cmd.none )

@@ -7,13 +7,23 @@ import Html.Events exposing (onClick)
 import App.Messages exposing (Msg(..))
 import Heroes.Models exposing (Hero)
 
-view : (List Hero) -> Html Msg
+view : Maybe (List Hero) -> Html Msg
 view heroes =
     div []
         [ h2 [] [ text "My Heroes" ]
-        , ul [ class "heroes" ]
-            (List.map heroRow heroes)
+        , maybeList heroes
         ] 
+
+maybeList : Maybe (List Hero) -> Html Msg
+maybeList heroes =
+    case heroes of
+
+        Just heroes ->
+            ul [ class "heroes" ]
+                (List.map heroRow heroes)
+        
+        Nothing ->
+            text ""
 
 heroRow : Hero -> Html Msg
 heroRow hero =
@@ -23,9 +33,9 @@ heroRow hero =
                 "selected"
             else
                 ""
-
+        
         selectHeroMessage =
-            SelectHero hero    
+            SelectHero hero
     in
         li [ class (getClass hero.isSelected), onClick selectHeroMessage ]
             [ span [ class "badge" ] [ text (toString hero.id) ]
