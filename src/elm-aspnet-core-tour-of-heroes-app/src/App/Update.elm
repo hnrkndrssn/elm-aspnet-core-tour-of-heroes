@@ -1,8 +1,10 @@
 module App.Update exposing (..)
 
 import RemoteData exposing (WebData)
+import Routing exposing (parseLocation)
+import Navigation
 
-import App.Models exposing (Model)
+import App.Models exposing (Model, Route(..))
 import App.Messages exposing (Msg(..))
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -60,3 +62,16 @@ update msg model =
                   []
           in
             ( { model | heroes = Just (updatedHeroList model.heroes), selectedHero = Just hero }, Cmd.none )
+
+        ChangeLocation path ->
+          ( model, Navigation.newUrl path )
+
+        OnLocationChange location ->
+          let
+            newRoute =
+              Routing.parseLocation location
+
+            cmd =
+              Routing.route2Cmd newRoute
+          in
+                ( { model | route = newRoute }, cmd )
