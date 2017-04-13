@@ -29,7 +29,7 @@ export default {
             {
                 test: /\.elm$/,
                 exclude: [/elm-stuff/, /node_modules/],
-                loader: 'elm-webpack-loader?verbose=true&warn=true'
+                loader: 'elm-webpack-loader?verbose=true&warn=true&forceWatch=true'
             },
             {
                 test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
@@ -46,6 +46,8 @@ export default {
 
     devServer: {
         inline: true,
+        hot: true,
+        historyApiFallback: true,
         stats: { colors: true }
     }
 };
