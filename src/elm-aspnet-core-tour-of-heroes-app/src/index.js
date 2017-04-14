@@ -1,7 +1,7 @@
 'use strict';
 
 import './index.html';
-import './styles.less';
+import './Main.less';
 
 import Elm from './Main.elm';
 let mountNode = document.getElementById('main');
