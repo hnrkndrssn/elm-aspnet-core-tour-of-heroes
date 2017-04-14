@@ -7,6 +7,7 @@ import Json.Decode as Decode
 
 import App.Messages exposing (Msg(..))
 import App.Models exposing (Model, Route(..))
+import Dashboard.View
 import Heroes.List
 
 onLinkClick : msg -> Attribute msg
@@ -19,12 +20,22 @@ onLinkClick message =
     in
         onWithOptions "click" options (Decode.succeed message)
 
+getActiveRouteClass : Route -> Route -> String
+getActiveRouteClass expectedRoute actualRoute =
+    if actualRoute == expectedRoute then
+        "active"
+    else
+        ""
+
 view : Model -> Html Msg
 view model =
     div []
-        [ h1 [] [ text model.title ]
-        , nav [] 
-            [ a [ href "/heroes", onLinkClick (ChangeLocation "/heroes"), class (if model.route == HeroesRoute then "active" else "")] [ text "Heroes" ]
+        [ div [ class "app" ]
+            [ h1 [] [ text model.title ]
+            , nav [] 
+                [ a [ href "/dashboard", onLinkClick (ChangeLocation "/dashboard"), class (getActiveRouteClass DashboardRoute model.route)] [ text "Dashboard" ]
+                , a [ href "/heroes", onLinkClick (ChangeLocation "/heroes"), class (getActiveRouteClass HeroesRoute model.route)] [ text "Heroes" ]
+                ]
             ]
         , page model
         ]
@@ -33,8 +44,11 @@ page : Model -> Html Msg
 page model =
     case model.route of
 
+        DashboardRoute ->
+            Dashboard.View.view model.topHeroes
+
         HeroesRoute ->
             Heroes.List.view model.heroes
 
         _ ->
-            text ""
+            text "Not found"

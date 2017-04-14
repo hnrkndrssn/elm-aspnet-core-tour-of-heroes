@@ -13,6 +13,18 @@ update msg model =
 
         HeroesLoaded heroes ->
           ( { model | heroes = (RemoteData.toMaybe heroes) }, Cmd.none )
+        
+        TopHeroesLoaded heroes ->
+          let
+            maybeHeroes = RemoteData.toMaybe heroes
+            topHeroes =
+              case maybeHeroes of
+                Just maybeHeroes ->
+                  List.take 4 (List.drop 1 maybeHeroes)
+                Nothing ->
+                  []
+          in
+            ( { model | topHeroes =  (Just topHeroes) }, Cmd.none )
 
         ChangeName newName ->
           case model.selectedHero of

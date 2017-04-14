@@ -18,6 +18,12 @@ fetchHeroes =
         |> RemoteData.sendRequest
         |> Cmd.map HeroesLoaded
 
+fetchTopHeroes : Cmd Msg
+fetchTopHeroes =
+    Http.get heroesUrl heroesDecoder
+        |> RemoteData.sendRequest
+        |> Cmd.map TopHeroesLoaded
+
 heroesDecoder : Decode.Decoder (List Hero)
 heroesDecoder =
     Decode.list heroDecoder
