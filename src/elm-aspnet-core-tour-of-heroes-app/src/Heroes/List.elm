@@ -9,7 +9,7 @@ import Heroes.Models exposing (Hero)
 
 view : Maybe (List Hero) -> Html Msg
 view heroes =
-    div []
+    div [ class "heroes" ]
         [ h2 [] [ text "My Heroes" ]
         , maybeList heroes
         ] 
