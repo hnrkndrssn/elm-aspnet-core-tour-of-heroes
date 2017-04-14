@@ -6,32 +6,56 @@ import Navigation
 
 import App.Models exposing (Model, Route(..))
 import App.Messages exposing (Msg(..))
+import Heroes.Models exposing (Hero)
+
+getSelectedHero : Maybe (List Hero) -> Route -> Maybe Hero
+getSelectedHero maybeHeroes route =
+    case route of
+
+      HeroRoute heroId ->
+        case maybeHeroes of
+
+          Just heroesList ->
+            List.head (List.filter(\hero -> hero.id == heroId) heroesList)
+
+          Nothing ->
+            Nothing
+      _ ->
+        Nothing
+
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
 
         HeroesLoaded heroes ->
-          ( { model | heroes = (RemoteData.toMaybe heroes) }, Cmd.none )
-        
-        TopHeroesLoaded heroes ->
           let
-            maybeHeroes = RemoteData.toMaybe heroes
-            topHeroes =
-              case maybeHeroes of
-                Just maybeHeroes ->
-                  List.take 4 (List.drop 1 maybeHeroes)
+            maybeHeroes = (RemoteData.toMaybe heroes)
+          in
+            ( { model | heroes = maybeHeroes, selectedHero = getSelectedHero maybeHeroes model.route }, Cmd.none )
+        
+        GoBack n ->
+          let
+            clearSelection hero =
+              { hero | isSelected = False }
+
+            updatedHeroes =
+              case model.heroes of
+                
+                Just heroes ->
+                  List.map clearSelection heroes
+
                 Nothing ->
                   []
           in
-            ( { model | topHeroes =  (Just topHeroes) }, Cmd.none )
+            ( { model | heroes = Just updatedHeroes }, Navigation.back n)
 
         ChangeName newName ->
           case model.selectedHero of
             Just selectedHero ->
               let
                 updatedHero = 
-                  { selectedHero | name = newName, isSelected = True }
+                  { selectedHero | name = newName }
 
                 pick currentHero =
                   if updatedHero.id == currentHero.id then
@@ -82,8 +106,6 @@ update msg model =
           let
             newRoute =
               Routing.parseLocation location
-
-            cmd =
-              Routing.route2Cmd newRoute
+            
           in
-                ( { model | route = newRoute }, cmd )
+              ( { model | route = newRoute, selectedHero = getSelectedHero model.heroes newRoute }, Cmd.none )

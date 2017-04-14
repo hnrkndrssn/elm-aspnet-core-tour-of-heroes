@@ -6,6 +6,8 @@ import App.Messages exposing (Msg(..))
 import App.Models exposing (Model, initialModel)
 import App.Update exposing (update)
 import App.View exposing (view)
+import Heroes.Commands exposing (fetchHeroes)
+
 import Routing
 
 init : Location -> ( Model, Cmd Msg )
@@ -14,11 +16,8 @@ init location =
       currentRoute =
         Routing.parseLocation location
 
-      cmd = 
-        Routing.route2Cmd currentRoute
-
     in
-      ( initialModel currentRoute, cmd )
+      ( initialModel currentRoute, fetchHeroes )
 
 -- SUBSCRIPTIONS
 

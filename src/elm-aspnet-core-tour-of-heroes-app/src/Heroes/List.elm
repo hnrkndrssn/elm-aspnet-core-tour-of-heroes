@@ -9,10 +9,9 @@ import Heroes.Models exposing (Hero)
 
 view : Maybe (List Hero) -> Html Msg
 view heroes =
-    div [ class "heroes" ]
-        [ h2 [] [ text "My Heroes" ]
-        , maybeList heroes
-        ] 
+    div []
+        [ maybeList heroes
+        ]
 
 maybeList : Maybe (List Hero) -> Html Msg
 maybeList heroes =

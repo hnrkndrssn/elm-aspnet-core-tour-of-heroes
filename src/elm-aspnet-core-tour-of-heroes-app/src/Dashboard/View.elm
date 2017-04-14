@@ -4,7 +4,10 @@ import Html exposing (..)
 import Html.Attributes exposing (class)
 
 import App.Messages exposing (Msg(..))
+import App.Models exposing (Route(HeroRoute))
+import App.Utils exposing (onLinkClick)
 import Heroes.Models exposing (Hero)
+import Routing
 
 view : Maybe (List Hero) -> Html Msg
 view heroes =
@@ -26,7 +29,7 @@ maybeList heroes =
 
 heroCard : Hero -> Html Msg
 heroCard hero =
-    div [ class "col-1-4"]
+    div [ onLinkClick (ChangeLocation (Routing.toUrl (HeroRoute hero.id))), class "col-1-4"]
         [ div [ class "module hero" ]
             [ h4 []
                 [ text hero.name ]
