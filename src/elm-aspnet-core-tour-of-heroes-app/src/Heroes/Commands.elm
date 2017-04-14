@@ -10,19 +10,13 @@ import Heroes.Models exposing (Hero)
 
 heroesUrl : String
 heroesUrl =
-    "src/Heroes/Heroes.json"
+    "../src/Heroes/Heroes.json"
 
 fetchHeroes : Cmd Msg
 fetchHeroes =
     Http.get heroesUrl heroesDecoder
         |> RemoteData.sendRequest
         |> Cmd.map HeroesLoaded
-
-fetchTopHeroes : Cmd Msg
-fetchTopHeroes =
-    Http.get heroesUrl heroesDecoder
-        |> RemoteData.sendRequest
-        |> Cmd.map TopHeroesLoaded
 
 heroesDecoder : Decode.Decoder (List Hero)
 heroesDecoder =

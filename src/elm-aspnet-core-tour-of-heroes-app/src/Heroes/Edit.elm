@@ -1,8 +1,8 @@
 module Heroes.Edit exposing (..)
 
 import Html exposing (..)
-import Html.Attributes exposing (value)
-import Html.Events exposing (onInput)
+import Html.Attributes exposing (value, class)
+import Html.Events exposing (onInput, onClick)
 
 import App.Messages exposing (Msg(..))
 import Heroes.Models exposing (Hero)
@@ -14,7 +14,7 @@ view hero =
             text ""
 
         Just hero ->
-            div []
+            div [ class "hero-details" ]
                 [ h2 [] [ text hero.name, text " details!" ]
                 , div [] 
                     [ label [] [ text "id: " ] 
@@ -27,4 +27,6 @@ view hero =
                         ] 
                         [] 
                     ]
+                , button [ onClick (GoBack 1) ]
+                    [ text "Back" ]
                 ]

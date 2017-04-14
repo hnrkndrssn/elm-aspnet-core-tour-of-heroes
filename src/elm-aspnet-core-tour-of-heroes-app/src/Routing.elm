@@ -2,15 +2,24 @@ module Routing exposing (..)
 
 import Navigation exposing (Location)
 import App.Models exposing (Model, Route(..))
-import App.Messages exposing (Msg)
-import Heroes.Commands exposing (fetchHeroes, fetchTopHeroes)
 import UrlParser exposing (..)
+
+dashboardRoute : String
+dashboardRoute = "dashboard"
+
+heroesRoute : String
+heroesRoute = "heroes"
+
+heroDetailsRoute : String
+heroDetailsRoute = "detail"
 
 matchers : Parser (Route -> a) a
 matchers =
     oneOf
         [ map DashboardRoute top
-        , map HeroesRoute (s "heroes")
+        , map DashboardRoute (s dashboardRoute)
+        , map HeroRoute (s heroDetailsRoute </> int)
+        , map HeroesRoute (s heroesRoute)
         ]
 
 parseLocation : Location -> Route
@@ -23,15 +32,22 @@ parseLocation location =
         Nothing ->
             DashboardRoute
 
-route2Cmd : Route -> Cmd Msg
-route2Cmd route =
+getRouteUrl : String -> String
+getRouteUrl route =
+    "/" ++ route
+
+toUrl : Route -> String
+toUrl route =
     case route of
 
         DashboardRoute ->
-            fetchTopHeroes
-            
-        HeroesRoute ->
-            fetchHeroes
+            getRouteUrl dashboardRoute
 
-        _ ->
-            Cmd.none
+        HeroesRoute ->
+            getRouteUrl heroesRoute
+
+        HeroRoute heroId ->
+            getRouteUrl heroDetailsRoute ++ "/" ++ (toString heroId)
+
+        NotFoundRoute ->
+            getRouteUrl dashboardRoute
